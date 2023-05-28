@@ -1,0 +1,21 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf8">
+    <title>Mes mangas</title>
+    <link rel="stylesheet" href="{% static 'global.css' %}">
+    <link rel="stylesheet" href="{% static 'mangalib/css/main.css' %}">
+</head>
+<body>
+    <h1 style="color:#4c75d6">Gestion du livre</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Ajouter">
+    </form>
+
+</body>
+</html>

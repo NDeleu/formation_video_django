@@ -11,14 +11,25 @@
 <body>
     <h1 style="color:#4c75d6">Bienvenue sur MangaLib !</h1>
 
+    <p><a href="{% url 'mangalib:add' %}">AJOUTER LIVRE</a></p>
 
-    <ul>
+    <table>
+        <tr>
+            <th>NOM</th>
+            <th>AUTEUR</th>
+            <th>QTÉ</th>
+            <th colspan="2">ACTIONS</th>
+        </tr>
         {% for book in books %}
-        <li><a href="{% url 'mangalib:show' book.id %}">{{ book.title }}</a></li>
+            <tr>
+                <td><a href="{% url 'mangalib:show' book.id %}">{{ book.title }}</a> </td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.quantity }}</td>
+                <td><a href="{% url 'mangalib:edit' book.id %}">[e]</a></td>
+                <td><a href="{% url 'mangalib:delete' book.id %}">[x]</a></td>
+            </tr>
         {% endfor %}
-    </ul>
-
-    <p><a href="{% url 'mangalib:add' %}">[+]</a> <a href="{% url 'mangalib:edit' %}">[e]</a> <a href="{% url 'mangalib:delete' %}">[-]</a></p>
+    </table>
 
 </body>
 </html>

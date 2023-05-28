@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from .models import Book, Author
+from .forms import BookForm
+# from .forms import SomeForms
 
 """
     save(), delete()
@@ -34,27 +36,61 @@ from .models import Book, Author
 """
 
 def index(request):
-    context = {
-        "books": Book.objects.all()
-    }
+    context = {"books": Book.objects.all()}
     return render(request, "mangalib/index.html", context)
+    """
+    if request.method == 'POST':
+        form = SomeForms(request.POST)
+
+        if form.is_valid():
+            return redirect("mangalib:index")
+    else:
+        form = SomeForms()
+
+    context = {"form": form}
+    return render(request, "mangalib/index.html", context)
+    """
 
 def show(request, book_id):
     context = {"book": get_object_or_404(Book, pk=book_id)}
     return render(request, "mangalib/show.html", context)
 
 def add(request):
+    if request.method == 'POST':
+        form = BookForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect("mangalib:index")
+    else:
+        form = BookForm()
+    return render(request, "mangalib/book-form.html", {"form": form})
+    """
     author = Author.objects.get(name = "Akira Toriyama")
     book = Book.objects.create(title= "Dragon Ball Z", quantity = 13, author = author)
     return redirect("mangalib:index")
+    """
 
-def edit(request):
+def edit(request, book_id):
+    book = Book.objects.get(pk=book_id)
+
+    if request.method == 'POST':
+        form = BookForm(request.POST, instance=book)
+
+        if form.is_valid():
+            form.save()
+            return redirect("mangalib:index")
+    else:
+        form = BookForm(instance=book)
+    return render(request, "mangalib/book-form.html", {"form": form})
+    """
     book = Book.objects.get(title= "Dragon Ball Z")
     book.title = "Dragon Ball Super"
     book.save()
     return redirect("mangalib:index")
+    """
 
-def remove(request):
-    book = Book.objects.filter(title__startswith="Dragon Ball")
+def remove(request, book_id):
+    book = Book.objects.get(pk=book_id)
     book.delete()
     return redirect("mangalib:index")
