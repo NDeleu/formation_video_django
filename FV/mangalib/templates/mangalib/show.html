@@ -9,14 +9,9 @@
     <link rel="stylesheet" href="{% static 'mangalib/css/main.css' %}">
 </head>
 <body>
-    <h1 style="color:#4c75d6">Bienvenue sur MangaLib !</h1>
-
-
-    <ul>
-        {% for book in books %}
-        <li><a href="{% url 'mangalib:show' book.id %}">{{ book.title }}</a></li>
-        {% endfor %}
-    </ul>
+    <h1>{{ book.title }}</h1>
+    <p>Quantité : {{ book.quantity }}</p>
+    <p><a href="{% url 'mangalib:index' %}">&laquo; Revenir à la liste des livres</a> </p>
 
 </body>
 </html>
